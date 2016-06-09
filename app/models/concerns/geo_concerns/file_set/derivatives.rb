@@ -16,12 +16,12 @@ module GeoConcerns
           vector_derivatives(filename)
           content_url = derivative_url('display_vector')
         end
-
         super
 
         # Once all the derivatives are created, we can run a job to
         # deliver them to external services
         DeliveryJob.perform_later(self, content_url) if content_url.present?
+        messenger.derivatives_created(self)
       end
       # rubocop:enable Metrics/MethodLength
 
@@ -63,6 +63,10 @@ module GeoConcerns
 
         def derivative_path_factory
           GeoConcerns::DerivativePath
+        end
+
+        def messenger
+          @messenger ||= GeoConcerns::EventsGenerator.new(nil)
         end
     end
   end
