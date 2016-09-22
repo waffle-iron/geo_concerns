@@ -18,7 +18,7 @@ module GeoConcerns
 
       def message(type, record)
         base_message(type, record).merge({
-          "worker" => :geoserver,
+          "exchange" => :geoserver_events,
           "shapefile_url" => display_vector_url(record)
         })
       end

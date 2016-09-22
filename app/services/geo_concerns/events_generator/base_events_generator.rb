@@ -19,8 +19,7 @@ module GeoConcerns
         end
 
         def publish_message(message)
-          # byebug
-          # messaging_client.publish(message.to_json)
+          @messaging_client.publish(message.to_json)
         end
 
         def helper
