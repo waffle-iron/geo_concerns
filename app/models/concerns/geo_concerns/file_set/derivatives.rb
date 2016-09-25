@@ -66,8 +66,7 @@ module GeoConcerns
         end
 
         def messenger
-          # @messenger ||= GeoConcerns::EventsGenerator.new(nil)
-          @messenger ||= GeoConcerns::EventsGenerator.new(GeoConcerns::MessagingClient.new('amqp://127.0.0.1:5672'))
+          @messenger ||= Messaging.messenger
         end
     end
   end
