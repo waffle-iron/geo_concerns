@@ -3,8 +3,8 @@ module GeoConcerns
     extend ActiveSupport::Concern
 
     def destroy
-      super
       messenger.record_deleted(geo_concern)
+      super
     end
 
     def after_create_response
@@ -18,12 +18,12 @@ module GeoConcerns
     end
 
     def messenger
-      # @messenger ||= GeoConcerns::EventsGenerator.new(nil)
-      @messenger ||= GeoConcerns::EventsGenerator.new(GeoConcerns::MessagingClient.new('amqp://127.0.0.1:5672'))
+      @messenger ||= Messaging.messenger
     end
 
     def geo_concern
-      show_presenter.new(curation_concern, current_ability, request)
+      doc = SolrDocument.new(curation_concern.to_solr)
+      show_presenter.new(doc, current_ability, request)
     end
   end
 end

@@ -7,10 +7,10 @@ module GeoConcerns
         @generators = generators.compact
       end
 
-      def method_missing(m, *args, &block)
+      def method_missing(m, *args)
         generators.each do |generator|
           next unless generator.respond_to? m
-          generator.send(m, args.first, messaging_client)
+          generator.send(m, args.first)
         end
       end
     end
