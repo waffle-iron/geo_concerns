@@ -12,7 +12,8 @@ module GeoConcerns
         def self.reproject(in_path, out_path, options)
           # reset the basename
           vector_info = GeoConcerns::Processors::Vector::Info.new(in_path)
-          options[:basename] = vector_info.name
+          # use the id for the basename unless it isn't set
+          options[:basename] = options[:id] || vector_info.name
           execute "env SHAPE_ENCODING= ogr2ogr -q -nln #{options[:basename]} -f 'ESRI Shapefile'"\
                     " -t_srs #{options[:output_srid]} -preserve_fid '#{out_path}' '#{in_path}'"
         end
