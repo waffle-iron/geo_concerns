@@ -26,13 +26,18 @@ module GeoConcerns
 
       def delete_message(type, record)
         base_message(type, record).merge("exchange" => :geoblacklight,
-                                         "id" => generate_document(record).to_hash[:layer_slug_s])
+                                         "id" => slug(record))
       end
 
       private
 
         def generate_document(record)
           Discovery::DocumentBuilder.new(record, Discovery::GeoblacklightDocument.new)
+        end
+
+        def slug(record)
+          return record.id unless record.respond_to?(:provenance)
+          "#{record.provenance.parameterize}-#{record.id}"
         end
     end
   end
