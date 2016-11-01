@@ -63,13 +63,13 @@ module GeoConcerns
             return unless file_set
             visibility = file_set.solr_document.visibility
             return visibility if visibility == Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
-            return visibility if visibility == Hydra::AccessControls::AccessRight::PERMISSION_TEXT_VALUE_AUTHENTICATED
+            return visibility if visibility == 'authenticated'
           end
 
           # Geoserver base url.
           # @return [String] geoserver base url
           def path
-            @config[:url].chomp('/rest')
+            @config[:access_url]
           end
       end
     end
